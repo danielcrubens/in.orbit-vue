@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lucide-vue-next": "^0.439.0",
+    "radix-vue": "^1.9.5",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-variants": "^0.2.1",
     "vue": "^3.4.37"
   },
   "devDependencies": {
