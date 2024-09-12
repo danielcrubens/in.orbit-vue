@@ -28,20 +28,7 @@
       <span>{{ completedPercentage }}%</span>
     </div>
     <Separator />
-    <div class="flex flex-wrap gap-3">
-      <OutlineButton>
-        <Plus size="14" class="text-zinc-600" />
-        Meditar
-      </OutlineButton>
-      <OutlineButton>
-        <Plus size="14" class="text-zinc-600" />
-        Nadar
-      </OutlineButton>
-      <OutlineButton>
-        <Plus size="14" class="text-zinc-600" />
-        Praticar exercício
-      </OutlineButton>
-    </div>
+    <PendingGoals/>
     <div class="flex flex-col gap-6">
       <h2 class="text-xl font-medium">Sua semana</h2>
       <div v-for="(goals, date) in data.goalsPerDay" :key="date" class="flex flex-col gap-4">
@@ -74,12 +61,12 @@ import { CheckCircle2, Plus } from "lucide-vue-next";
 import ProgressBar from "../components/ui/ProgressBar.vue";
 import Progress from "../components/ui/Progress.vue";
 import Separator from "../components/ui/Separator.vue";
-import OutlineButton from "../components/ui/OutlineButton.vue";
 import { ProgressIndicator, ProgressRoot } from 'radix-vue'
 import { useQuery } from "@tanstack/vue-query"
 import { getSummary } from "../../http/GetSummary";
 import dayjs from 'dayjs';
 import ptBR from 'dayjs/locale/pt-br';
+import PendingGoals from '../components/PendingGoals.vue';
 
 dayjs.locale(ptBR);
 
