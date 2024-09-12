@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.55.4",
+    "@tanstack/vue-store": "^0.5.5",
+    "dayjs": "^1.11.13",
     "lucide-vue-next": "^0.439.0",
     "radix-vue": "^1.9.5",
     "tailwind-merge": "^2.5.2",

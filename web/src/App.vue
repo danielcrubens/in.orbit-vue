@@ -1,18 +1,26 @@
 <template>
   <DialogRoot>
     <div class="h-screen flex flex-col items-center justify-center gap-8">
-      <EmptyGoals />
+      <Summary v-if="data?.total && data.total > 0" />
+      <EmptyGoals v-else />
       <DialogOverlay class="fixed inset-0 z-[99] bg-black bg-opacity-10 backdrop-blur-sm" />
       <CreateGoal />
     </div>
   </DialogRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
+
+import { useQuery } from "@tanstack/vue-query"
+import { getSummary } from "../http/GetSummary"
 import CreateGoal from "./components/ui/CreateGoal/CreateGoal.vue";
-import Button from "./components/ui/Button.vue";
 import EmptyGoals from "./components/EmptyGoals.vue";
+import Summary from "./components/Summary.vue";
 import { DialogOverlay, DialogRoot } from "radix-vue";
-import { ref } from 'vue';
-const radioStateSingle = ref('default');
+
+const { data } = useQuery({
+  queryKey: ['summary'],
+  queryFn: getSummary,
+  staleTime: 1000 * 60,
+})
 </script>
