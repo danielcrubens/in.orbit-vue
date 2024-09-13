@@ -14,30 +14,27 @@
           que você quer continuar praticando toda semana.
         </DialogDescription>
       </div>
-      <form action="" class="flex-1 flex flex-col justify-between">
+      <form @submit.prevent="handleCreateGoal" class="flex-1 flex flex-col justify-between">
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-2">
             <Label for="title">Qual atividade?</Label>
-            <Input id="title" placeholder="Praticar exercícios, meditar, etc.." type="text"
-              class="w-full rounded-lg border border-zinc-900 px-4 py-3 outline-none" />
+            <Input id="title" placeholder="Praticar exercícios, meditar, etc.." v-model="form.title" autocomplete="off"
+              type="text" class="w-full rounded-lg border border-zinc-900 px-4 py-3 outline-none" />
+            <p v-if="errors.title" class="text-red-400 text-sm">
+              {{ errors.title }}
+            </p>
           </div>
           <div class="flex flex-col gap-2">
-            <Label for="title">Quantas vezes na semana?</Label>
-            <RadioGroup v-model="radioStateSingle">
-              <RadioGroupItem id="1" value="default">
-                <RadioGroupIndicator :checked="radioStateSingle === 'default'" />
-                <span class="text-zinc-300 text-sm font-medium leading-none">1x na semana</span>
-                <span class="text-lg leading-none">🥱</span>
-              </RadioGroupItem>
-              <RadioGroupItem id="2" value="2">
-                <RadioGroupIndicator :checked="radioStateSingle === '2'" />
-                <span class="text-zinc-300 text-sm font-medium leading-none">2x na semana</span>
-                <span class="text-lg leading-none">😊</span>
-              </RadioGroupItem>
-              <RadioGroupItem id="3" value="3">
-                <RadioGroupIndicator :checked="radioStateSingle === '3'" />
-                <span class="text-zinc-300 text-sm font-medium leading-none">3x na semana</span>
-                <span class="text-lg leading-none">💪</span>
+            <Label for="frequency">Quantas vezes na semana?</Label>
+            <RadioGroup v-model="form.desiredWeeklyFrequency">
+              <RadioGroupItem v-for="option in weeklyFrequencyOptions" :key="option.value.toString()" :value="option.value">
+                <RadioGroupIndicator :checked="form.desiredWeeklyFrequency === option.value"  />
+                <span class="text-zinc-300 text-sm font-medium leading-none">
+                  {{ option.label }}
+                </span>
+                <span class="text-lg leading-none">
+                  <span class="text-lg leading-none">{{ option.emoji }}</span>
+                </span>
               </RadioGroupItem>
             </RadioGroup>
           </div>
@@ -46,14 +43,15 @@
           <DialogClose class="flex-1" asChild aria-label="Close">
             <Button type="button" variant="secondary">Fechar</Button>
           </DialogClose>
-          <Button class="flex-1">Salvar</Button>
+          <Button class="flex-1 btn-primary">Salvar</Button>
         </div>
       </form>
     </div>
   </DialogContent>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
 import { Plus, X } from "lucide-vue-next";
 import Label from "../Label.vue";
 import Input from "../Input.vue";
@@ -71,4 +69,46 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "radix-vue";
+import { useQueryClient } from "@tanstack/vue-query"
+import { createGoal } from "../../../../http/CreateGoal";
+
+const queryClient = useQueryClient()
+
+const form = reactive({
+  title: '',
+  desiredWeeklyFrequency: 1,
+})
+
+const errors = reactive({})
+
+const weeklyFrequencyOptions = [
+  { value: 1, label: '1x na semana', emoji: '🥱' },
+  { value: 2, label: '2x na semana', emoji: '🙂' },
+  { value: 3, label: '3x na semana', emoji: '😎' },
+  { value: 4, label: '4x na semana', emoji: '😜' },
+  { value: 5, label: '5x na semana', emoji: '🤨' },
+  { value: 6, label: '6x na semana', emoji: '🤯' },
+  { value: 7, label: 'Todos dias da semana', emoji: '🔥' },
+]
+
+const validateForm = () => {
+  errors.title = form.title.trim() === '' ? 'Informe a atividade que deseja realizar' : ''
+  return Object.values(errors).every(error => error === '')
+}
+
+const handleCreateGoal = async () => {
+  console.log(form.title)
+  if (!validateForm()) return
+
+  await createGoal({
+    title: form.title,
+    desiredWeeklyFrequency: form.desiredWeeklyFrequency,
+  })
+
+  queryClient.invalidateQueries({ queryKey: ['summary'] })
+  queryClient.invalidateQueries({ queryKey: ['pending-goals'] })
+
+  form.title = ''
+  form.desiredWeeklyFrequency = 3
+}
 </script>
