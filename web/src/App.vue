@@ -1,9 +1,9 @@
 <template>
   <DialogRoot>
-    <div class="h-screen flex flex-col items-center justify-center gap-8">
+    <div class="lg:h-screen flex flex-col items-center justify-center lg:gap-8">
       <Summary v-if="data?.total && data.total > 0" />
       <EmptyGoals v-else />
-      <DialogOverlay class="fixed inset-0 z-[99] bg-black bg-opacity-10 backdrop-blur-sm" />
+      <DialogOverlay class="fixed inset-0 z-[99] bg-black lg:bg-opacity-10 backdrop-blur-sm" />
       <CreateGoal />
     </div>
   </DialogRoot>

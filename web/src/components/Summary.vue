@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data" class="py-10 max-w-[480px] px-5 mx-auto flex flex-col gap-6">
+  <div v-if="data" class="lg:py-10  w-[480px] px-5 mx-auto flex flex-col gap-5 lg:gap-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
         <InOrbitIcon />
@@ -61,7 +61,6 @@ import { CheckCircle2, Plus } from "lucide-vue-next";
 import ProgressBar from "../components/ui/ProgressBar.vue";
 import Progress from "../components/ui/Progress.vue";
 import Separator from "../components/ui/Separator.vue";
-import { ProgressIndicator, ProgressRoot } from 'radix-vue'
 import { useQuery } from "@tanstack/vue-query"
 import { getSummary } from "../../http/GetSummary";
 import dayjs from 'dayjs';
@@ -79,5 +78,4 @@ const { data } = useQuery({
 const firstDayOfWeek = computed(() => dayjs().startOf('week').format('D MMM'));
 const lastDayOfWeek = computed(() => dayjs().endOf('week').format('D MMM'));
 const completedPercentage = computed(() => data.value ? Math.round((data.value.completed * 100) / data.value.total) : 0);
-const formattedToday = computed(() => dayjs().format('D [de] MMMM'));
 </script>

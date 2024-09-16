@@ -18,6 +18,7 @@
     "tailwind-variants": "^0.2.1",
     "vee-validate": "^4.13.2",
     "vue": "^3.4.37",
+    "vue-toastification": "^2.0.0-rc.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
