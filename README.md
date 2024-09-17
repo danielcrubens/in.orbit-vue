@@ -40,7 +40,6 @@ Rode a aplicação
 npm run dev
 ```
 
- ## [Link Backend](https://biomejs.dev/)
 
 
 
