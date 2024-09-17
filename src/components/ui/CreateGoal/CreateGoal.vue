@@ -67,7 +67,7 @@ import {
   DialogTitle,
 } from "radix-vue";
 import { useQueryClient } from "@tanstack/vue-query";
-import { createGoal } from "../../../../http/CreateGoal";
+import { createGoal } from "/http/CreateGoal";
 
 const toast = useToast();
 const queryClient = useQueryClient();
